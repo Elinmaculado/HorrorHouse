@@ -8,6 +8,8 @@ public class FPSMovement : MonoBehaviour
 
     public float movementSpeed = 3;
 
+    public AudioSource steps;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,6 +17,8 @@ public class FPSMovement : MonoBehaviour
         //playerInput = InputManager.Inputs;
         playerInput = new PlayerInputs();
         playerInput.Player.Enable();
+        
+        steps = GetComponent<AudioSource>();
 
     }
         // Update is called once per frame
@@ -33,11 +37,22 @@ public class FPSMovement : MonoBehaviour
         camForward.Normalize();
         camRight.Normalize();
         
-        
-        
-        
         var movementInput = playerInput.Player.Move.ReadValue<Vector2>();
         Vector3 movement = camForward * movementInput.y + camRight * movementInput.x;
         controller.Move(movement * movementSpeed * Time.deltaTime);
+
+        if (movement.magnitude != 0)
+        {
+            if (!steps.isPlaying)
+            {
+                steps.Play();
+                
+            }
+        }
+        else
+        {
+            Debug.Log("Not Walking");
+            steps.Stop();
+        }
     }
 }
