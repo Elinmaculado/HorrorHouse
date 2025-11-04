@@ -12,6 +12,7 @@ public class FPSMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        //playerInput = InputManager.Inputs;
         playerInput = new PlayerInputs();
         playerInput.Player.Enable();
 
